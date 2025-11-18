@@ -20,17 +20,10 @@
             animation: fadeIn 0.3s ease-out;
         }
 
-        /* Styles for Admin Mode */
-        /* By default, admin panel and actions are hidden */
+        /* Styles for Admin Mode (No longer used, but harmless) */
         #admin-panel,
         .admin-action {
             display: none;
-        }
-
-        /* When admin-mode is active, show them */
-        body.admin-mode-active #admin-panel,
-        body.admin-mode-active .admin-action {
-            display: revert; /* Revert to default display (block for div, table-cell for th/td) */
         }
     </style>
 </head>
@@ -41,13 +34,7 @@
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <h1 class="text-2xl font-bold text-blue-600">Student Marksheet Dashboard</h1>
-                <div class="flex items-center space-x-4">
-                    <span id="admin-mode-status" class="hidden text-sm font-semibold text-yellow-600 px-3 py-1 bg-yellow-100 rounded-full">Admin Mode</span>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm font-medium text-gray-600">Status:</span>
-                        <span id="auth-status" class="text-sm font-semibold text-red-500">Connecting...</span>
-                    </div>
-                </div>
+                <!-- Admin and Status indicators removed -->
             </div>
         </nav>
     </header>
@@ -55,53 +42,16 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
+        <!-- Grid container -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-            <!-- Column 1: Add Student Form (HIDDEN BY DEFAULT) -->
-            <div id="admin-panel" class="lg:col-span-1 bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-xl font-semibold mb-4 border-b pb-2">Add New Student</h2>
-                <form id="add-student-form" class="space-y-4">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Student Name</label>
-                        <input type="text" id="name" name="name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    </div>
-                    
-                    <div>
-                        <label for="studentId" class="block text-sm font-medium text-gray-700">Student ID</label>
-                        <input type="text" id="studentId" name="studentId" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    </div>
-
-                    <div>
-                        <label for="roll" class="block text-sm font-medium text-gray-700">Roll Number</label>
-                        <input type="text" id="roll" name="roll" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    </div>
-
-                    <div>
-                        <label for="registration" class="block text-sm font-medium text-gray-700">Registration Number</label>
-                        <input type="text" id="registration" name="registration" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    </div>
-
-                    <!-- Mark Sheet Fields -->
-                    <fieldset class="border-t pt-4">
-                        <legend class="text-sm font-medium text-gray-700 mb-2">Mark Sheet</legend>
-                        <div>
-                            <label for="marksheet-url" class="block text-sm font-medium text-gray-700">Marksheet Link (URL)</label>
-                            <input type="url" id="marksheet-url" name="marksheet-url" placeholder="https://example.com/marksheet.pdf" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        </div>
-                    </fieldset>
-
-                    <button type="submit" id="add-student-button" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
-                        Add Student
-                    </button>
-                    <!-- Message area for success/error -->
-                    <div id="form-message" class="text-sm text-center"></div>
-                </form>
-            </div>
-
+            <!-- Column 1: Add Student Form (REMOVED) -->
+            
             <!-- Column 2: Student List Table -->
-            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-lg" id="student-list-container">
+            <!-- This container now spans the full width -->
+            <div class="lg:col-span-3 bg-white p-6 rounded-lg shadow-lg" id="student-list-container">
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-4 border-b pb-2">
-                    <h2 class="text-xl font-semibold">Real-time Student List</h2>
+                    <h2 class="text-xl font-semibold">Student List</h2>
                     <div class="mt-2 sm:mt-0 w-full sm:w-auto">
                         <input type="text" id="search-input" placeholder="Search by name, ID, roll..." class="block w-full sm:w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     </div>
@@ -117,15 +67,15 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registration</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Marksheet</th>
-                                <!-- Admin-only Actions Column -->
-                                <th scope="col" class="admin-action px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <!-- Admin-only Actions Column (REMOVED) -->
                             </tr>
                         </thead>
                         <tbody id="student-list" class="bg-white divide-y divide-gray-200">
                             <!-- Rows will be dynamically inserted here by JavaScript -->
                             <tr>
-                                <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                    Loading student data from Firebase...
+                                <!-- Colspan updated from 6 to 5 -->
+                                <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                    Loading student data...
                                 </td>
                             </tr>
                         </tbody>
@@ -136,521 +86,72 @@
         </div>
     </main>
 
-    <!-- Custom Delete Confirmation Modal -->
-    <div id="delete-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-gray-900 bg-opacity-50 transition-opacity" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                <div class="sm:flex sm:items-start">
-                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                        </svg>
-                    </div>
-                    <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                        <h3 class="text-lg font-semibold leading-6 text-gray-900" id="modal-title">Delete Student</h3>
-                        <div class="mt-2">
-                            <p class="text-sm text-gray-500">Are you sure you want to delete this student? This action cannot be undone.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button type="button" id="modal-confirm-delete" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Delete</button>
-                <button type="button" id="modal-cancel-delete" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
-            </div>
-        </div>
-    </div>
+    <!-- All Modals (Delete, Edit, Admin Login) have been REMOVED -->
 
-    <!-- Custom Edit Modal -->
-    <div id="edit-modal" class="fixed inset-0 z-40 hidden items-center justify-center bg-gray-900 bg-opacity-50 transition-opacity" aria-labelledby="edit-modal-title" role="dialog" aria-modal="true">
-        <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-            <form id="edit-student-form">
-                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                    <h3 class="text-lg font-semibold leading-6 text-gray-900" id="edit-modal-title">Edit Student</h3>
-                    <div class="mt-4 space-y-4">
-                        <!-- Hidden input to store doc ID -->
-                        <input type="hidden" id="edit-doc-id" name="docId">
-                        
-                        <div>
-                            <label for="edit-name" class="block text-sm font-medium text-gray-700">Student Name</label>
-                            <input type="text" id="edit-name" name="name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="edit-studentId" class="block text-sm font-medium text-gray-700">Student ID</label>
-                            <input type="text" id="edit-studentId" name="studentId" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="edit-roll" class="block text-sm font-medium text-gray-700">Roll Number</label>
-                            <input type="text" id="edit-roll" name="roll" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="edit-registration" class="block text-sm font-medium text-gray-700">Registration Number</label>
-                            <input type="text" id="edit-registration" name="registration" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        </div>
-                        <fieldset class="border-t pt-4">
-                            <legend class="text-sm font-medium text-gray-700 mb-2">Update Mark Sheet</legend>
-                            <div>
-                                <label for="edit-marksheet-url" class="block text-sm font-medium text-gray-700">Marksheet Link (URL)</label>
-                                <input type="url" id="edit-marksheet-url" name="marksheet-url" placeholder="https://example.com/marksheet.pdf" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
-                        </fieldset>
-                    </div>
-                    <!-- Message area for success/error -->
-                    <div id="edit-form-message" class="text-sm text-center mt-4"></div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button type="submit" id="edit-student-button" class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto">Save Changes</button>
-                    <button type="button" id="modal-cancel-edit" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- NEW: Admin Login Modal -->
-    <div id="admin-login-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-gray-900 bg-opacity-50 transition-opacity" aria-labelledby="login-modal-title" role="dialog" aria-modal="true">
-        <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
-            <form id="admin-login-form">
-                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                    <h3 class="text-lg font-semibold leading-6 text-gray-900" id="login-modal-title">Admin Login</h3>
-                    <div class="mt-4 space-y-4">
-                        <div>
-                            <label for="admin-id" class="block text-sm font-medium text-gray-70T0">Admin ID</label>
-                            <input type="text" id="admin-id" name="admin-id" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="admin-password" class="block text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" id="admin-password" name="admin-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        </div>
-                    </div>
-                    <!-- Message area for success/error -->
-                    <div id="login-form-message" class="text-sm text-center text-red-600 mt-4"></div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button type="submit" id="modal-confirm-login" class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto">Login</button>
-                    <button type="button" id="modal-cancel-login" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
     
-    <!-- Firebase and App JavaScript -->
-    <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { 
-            getAuth, 
-            signInAnonymously,
-            onAuthStateChanged,
-            signInWithCustomToken // Added missing import
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, // Restored import
-            addDoc, // Restored import
-            collection, 
-            onSnapshot,
-            query,
-            deleteDoc, // Restored import
-            updateDoc, // Restored import
-            setLogLevel // Added Firestore logging
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        
-        // --- Admin Credentials ---
-        // You can change these to whatever you want
-        const ADMIN_ID = "admin";
-        const ADMIN_PASS = "pass123";
-
-        // --- Firebase Configuration ---
-        // Get Firebase config from environment
-        const firebaseConfig = typeof __firebase_config !== 'undefined' 
-            ? JSON.parse(__firebase_config) 
-            : {}; // Use empty object as fallback
-        
-        // Get App ID from environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        // --- End of Configuration ---
+    <!-- App JavaScript -->
+    <script>
+        // --- Hardcoded Student Data ---
+        // You can add or edit student info here
+        const studentDataCache = new Map();
+        studentDataCache.set('doc1', {
+            name: "Alice Smith",
+            studentId: "S1001",
+            roll: "R001",
+            registration: "REG12345",
+            marksheetUrl: "https://example.com/marksheet/alice.pdf"
+        });
+        studentDataCache.set('doc2', {
+            name: "Bob Johnson",
+            studentId: "S1002",
+            roll: "R002",
+            registration: "REG12346",
+            marksheetUrl: "https://example.com/marksheet/bob.pdf"
+        });
+        studentDataCache.set('doc3', {
+            name: "Charlie Brown",
+            studentId: "S1003",
+            roll: "R003",
+            registration: "REG12347",
+            marksheetUrl: "https://example.com/marksheet/charlie.pdf"
+        });
+        studentDataCache.set('doc4', {
+            name: "David Lee",
+            studentId: "S1004",
+            roll: "R004",
+            registration: "REG12348",
+            marksheetUrl: "https://example.com/marksheet/david.pdf"
+        });
+        studentDataCache.set('doc5', {
+            name: "Eve Davis",
+            studentId: "S1005",
+            roll: "R005",
+            registration: "REG12349",
+            marksheetUrl: "https://example.com/marksheet/eve.pdf"
+        });
 
 
         // --- DOM References ---
-        const authStatus = document.getElementById('auth-status');
-        const addStudentForm = document.getElementById('add-student-form');
         const studentListBody = document.getElementById('student-list');
-        const formMessage = document.getElementById('form-message');
-        const addStudentButton = document.getElementById('add-student-button');
-        const adminModeStatus = document.getElementById('admin-mode-status');
+        const searchInput = document.getElementById('search-input');
         const studentListContainer = document.getElementById('student-list-container');
-        const searchInput = document.getElementById('search-input'); // Added search input
-
-        // Delete Modal DOM
-        const deleteModal = document.getElementById('delete-modal');
-        const confirmDeleteBtn = document.getElementById('modal-confirm-delete');
-        const cancelDeleteBtn = document.getElementById('modal-cancel-delete');
-
-        // Edit Modal DOM
-        const editModal = document.getElementById('edit-modal');
-        const editStudentForm = document.getElementById('edit-student-form');
-        const cancelEditBtn = document.getElementById('modal-cancel-edit');
-        const editStudentButton = document.getElementById('edit-student-button');
-        const editFormMessage = document.getElementById('edit-form-message');
-
-        // Admin Login Modal DOM
-        const loginModal = document.getElementById('admin-login-modal');
-        const loginForm = document.getElementById('admin-login-form');
-        const cancelLoginBtn = document.getElementById('modal-cancel-login');
-        const loginFormMessage = document.getElementById('login-form-message');
-
-        let db, auth, userId;
-        let studentsCollectionRef; // Will be set after auth
-        let studentDataCache = new Map(); // Cache for edit modal
- 
-        // --- Modal Delete Logic ---
-        let itemToDelete = { docId: null };
-
-        function openDeleteModal(docId) {
-            itemToDelete = { docId };
-            deleteModal.classList.remove('hidden');
-            deleteModal.classList.add('flex');
-        }
-
-        function closeDeleteModal() {
-            itemToDelete = { docId: null };
-            deleteModal.classList.add('hidden');
-            deleteModal.classList.remove('flex');
-        }
-
-        confirmDeleteBtn.addEventListener('click', async () => {
-            if (itemToDelete.docId) {
-                await deleteStudent(itemToDelete.docId);
-            }
-            closeDeleteModal();
-        });
-
-        cancelDeleteBtn.addEventListener('click', () => {
-            closeDeleteModal();
-        });
-
-        // --- Modal Edit Logic ---
-        function openEditModal(docId) {
-            const student = studentDataCache.get(docId);
-            if (!student) {
-                console.error("Could not find student data to edit");
-                return;
-            }
-
-            // Populate the edit form
-            editStudentForm.querySelector('#edit-doc-id').value = docId;
-            editStudentForm.querySelector('#edit-name').value = student.name;
-            editStudentForm.querySelector('#edit-studentId').value = student.studentId;
-            editStudentForm.querySelector('#edit-roll').value = student.roll;
-            editStudentForm.querySelector('#edit-registration').value = student.registration;
-            
-            // Marksheet URL
-            editStudentForm.querySelector('#edit-marksheet-url').value = student.marksheetUrl || '';
-
-            editModal.classList.remove('hidden');
-            editModal.classList.add('flex');
-        }
-
-        function closeEditModal() {
-            editModal.classList.add('hidden');
-            editModal.classList.remove('flex');
-            editFormMessage.textContent = '';
-            editStudentForm.reset();
-        }
-
-        cancelEditBtn.addEventListener('click', () => {
-            closeEditModal();
-        });
-
-        // --- Modal Admin Login Logic ---
-        function openLoginModal() {
-            loginModal.classList.remove('hidden');
-            loginModal.classList.add('flex');
-            loginForm.querySelector('#admin-id').focus();
-        }
-
-        function closeLoginModal() {
-            loginModal.classList.add('hidden');
-            loginModal.classList.remove('flex');
-            loginForm.reset();
-            loginFormMessage.textContent = '';
-        }
-
-        cancelLoginBtn.addEventListener('click', () => {
-            closeLoginModal();
-        });
-
-
-        // --- Admin Mode Toggle ---
-        function toggleAdminMode() {
-            document.body.classList.toggle('admin-mode-active');
-            
-            // Adjust layout based on admin mode
-            if (document.body.classList.contains('admin-mode-active')) {
-                studentListContainer.classList.remove('lg:col-span-3'); // Change from full-width
-                studentListContainer.classList.add('lg:col-span-2');
-                adminModeStatus.classList.remove('hidden');
-                console.log("Admin Mode ON");
-            } else {
-                studentListContainer.classList.remove('lg:col-span-2');
-                studentListContainer.classList.add('lg:col-span-3'); // Make table full width
-                adminModeStatus.classList.add('hidden');
-                console.log("Admin Mode OFF");
-            }
-        }
 
         // --- Main App Function ---
-        async function main() {
-            // Check for config *after* parsing
-            if (!firebaseConfig.apiKey) {
-                authStatus.textContent = 'Error: Firebase Config Missing';
-                authStatus.classList.remove('text-red-500');
-                authStatus.classList.add('text-lg', 'font-bold', 'text-center', 'p-4', 'bg-red-100', 'rounded-md');
-                studentListBody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-red-600">Firebase is not configured. Please check your setup.</td></tr>';
-                console.error("Firebase config is missing!");
-                return;
-            }
+        function main() {
+            // Note: Layout is already full-width due to lg:col-span-3,
+            // but we'll keep this in case the class was different.
+            studentListContainer.classList.remove('lg:col-span-2');
+            studentListContainer.classList.add('lg:col-span-3');
 
-            try {
-                // Initialize Firebase
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                // Enable Firestore debug logging
-                setLogLevel('Debug');
-
-                // --- Authentication ---
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        console.log("User is authenticated:", user.uid);
-                        userId = user.uid;
-                        authStatus.textContent = 'Connected';
-                        authStatus.classList.remove('text-red-500');
-                        authStatus.classList.add('text-green-600');
-
-                        // --- Initialize Firestore References ---
-                        // This path MUST match your Firestore security rules
-                        const collectionPath = `/artifacts/${appId}/public/data/students`;
-                        console.log(`Using collection path: ${collectionPath}`);
-                        studentsCollectionRef = collection(db, collectionPath);
-
-                        // --- Start Real-time Listener ---
-                        listenForStudents();
-
-                        // --- Setup Form Listener ---
-                        setupFormListener();
-                        setupEditFormListener(); // Setup the edit form
-                        setupLoginFormListener(); // Setup the admin login form
-
-                        // --- Setup Search Listener ---
-                        searchInput.addEventListener('input', () => {
-                            renderTable(); // Re-render the table on every keystroke
-                        });
-
-                        // --- Setup Admin Mode Shortcut ---
-                        window.addEventListener('keydown', (e) => {
-                            // User requested: Cmd+L (or Ctrl+L)
-                            // NOTE: This will likely conflict with the browser's "focus address bar" shortcut.
-                            if (e.key === 'l' && (e.ctrlKey || e.metaKey)) {
-                                e.preventDefault();
-                                
-                                // Check if user is already in admin mode
-                                if (document.body.classList.contains('admin-mode-active')) {
-                                    // If already admin, log out
-                                    toggleAdminMode();
-                                } else {
-                                    // If not admin, open login modal
-                                    console.log("Admin shortcut pressed. Opening login modal.");
-                                    openLoginModal();
-                                }
-                            }
-                        });
-                        
-                        // Set initial layout (non-admin)
-                        studentListContainer.classList.remove('lg:col-span-2');
-                        studentListContainer.classList.add('lg:col-span-3');
-
-
-                    } else {
-                        console.log("User is not authenticated. Checking for token...");
-                        authStatus.textContent = 'Authenticating...';
-                        try {
-                            if (typeof __initial_auth_token !== 'undefined') {
-                                console.log("Signing in with custom token...");
-                                await signInWithCustomToken(auth, __initial_auth_token);
-                            } else {
-                                console.log("No custom token. Signing in anonymously...");
-                                await signInAnonymously(auth);
-                            }
-                        } catch (authError) {
-                            console.error("Authentication failed:", authError);
-                            authStatus.textContent = `Auth Error: ${authError.message}`;
-                            authStatus.classList.remove('text-green-600');
-                            authStatus.classList.add('text-red-500');
-                        }
-                    }
-                });
-
-            } catch (error) {
-                console.error("Error initializing Firebase:", error);
-                authStatus.textContent = 'Init Error';
-                studentListBody.innerHTML = `<tr><td colspan="6" class="px-6 py-4 text-center text-red-600">Error: ${error.message}</td></tr>`;
-            }
-        }
-
-        // --- Firestore: Add Student Form Listener ---
-        function setupFormListener() {
-            addStudentForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                // Disable button to prevent double submission
-                addStudentButton.disabled = true;
-                addStudentButton.textContent = 'Saving...';
-                showFormMessage('Saving student...', 'info');
-
-                // Get form data
-                const formData = new FormData(addStudentForm);
-                const marksheetUrl = formData.get('marksheet-url');
-                
-                const studentData = {
-                    name: formData.get('name'),
-                    studentId: formData.get('studentId'),
-                    roll: formData.get('roll'),
-                    registration: formData.get('registration'),
-                    marksheetUrl: marksheetUrl || null, // Get URL from form
-                    createdAt: new Date(),
-                    owner: userId 
-                };
-
-                // Validate data
-                if (!studentData.name || !studentData.studentId) {
-                    showFormMessage('Name and Student ID are required.', 'error');
-                    addStudentButton.disabled = false;
-                    addStudentButton.textContent = 'Add Student';
-                    return;
-                }
-
-                if (!studentData.marksheetUrl) {
-                    showFormMessage('Marksheet Link (URL) is required.', 'error');
-                    addStudentButton.disabled = false;
-                    addStudentButton.textContent = 'Add Student';
-                    return;
-                }
-                
-                try {
-                    // --- Add Student Data to Firestore ---
-                    const docRef = await addDoc(studentsCollectionRef, studentData);
-                    console.log("Document written with ID: ", docRef.id);
-                    
-                    showFormMessage('Student added successfully!', 'success');
-                    addStudentForm.reset(); // Clear the form
-
-                } catch (error) {
-                    console.error("Error adding document: ", error);
-                    showFormMessage(`Error: ${error.message}`, 'error');
-                } finally {
-                    // Re-enable button
-                    addStudentButton.disabled = false;
-                    addStudentButton.textContent = 'Add Student';
-                }
+            // --- Setup Search Listener ---
+            searchInput.addEventListener('input', () => {
+                renderTable(); // Re-render the table on every keystroke
             });
-        }
 
-        // --- Firestore: Edit Student Form Listener ---
-        function setupEditFormListener() {
-            editStudentForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                editStudentButton.disabled = true;
-                editStudentButton.textContent = 'Saving...';
-                showFormMessage('Saving changes...', 'info', 'edit-form-message');
-
-                const formData = new FormData(editStudentForm);
-                const docId = formData.get('docId');
-                
-                const studentUpdateData = {
-                    name: formData.get('name'),
-                    studentId: formData.get('studentId'),
-                    roll: formData.get('roll'),
-                    registration: formData.get('registration'),
-                    marksheetUrl: formData.get('marksheet-url') || null,
-                };
-                
-                if (!studentUpdateData.marksheetUrl) {
-                    showFormMessage('Marksheet Link (URL) is required.', 'error', 'edit-form-message');
-                    editStudentButton.disabled = false;
-                    editStudentButton.textContent = 'Save Changes';
-                    return;
-                }
-
-                try {
-                    // --- Update the Document in Firestore ---
-                    const docRef = doc(db, `/artifacts/${appId}/public/data/students`, docId);
-                    await updateDoc(docRef, studentUpdateData);
-
-                    showFormMessage('Student updated successfully!', 'success', 'edit-form-message');
-                    setTimeout(closeEditModal, 1500);
-
-                } catch (error)
- {
-                    console.error("Error updating document: ", error);
-                    showFormMessage(`Error: ${error.message}`, 'error', 'edit-form-message');
-                } finally {
-                    editStudentButton.disabled = false;
-                    editStudentButton.textContent = 'Save Changes';
-                }
-            });
-        }
-
-        // --- Admin: Login Form Listener ---
-        function setupLoginFormListener() {
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                loginFormMessage.textContent = ''; // Clear old errors
-
-                const id = loginForm.querySelector('#admin-id').value;
-                const pass = loginForm.querySelector('#admin-password').value;
-
-                // Check credentials
-                if (id === ADMIN_ID && pass === ADMIN_PASS) {
-                    console.log("Admin login successful.");
-                    toggleAdminMode(); // Grant access
-                    closeLoginModal(); // Close the modal
-                } else {
-                    console.log("Admin login failed.");
-                    loginFormMessage.textContent = 'Invalid ID or Password.';
-                    // Clear password field for security
-                    loginForm.querySelector('#admin-password').value = '';
-                }
-            });
-        }
-
-        // --- Firestore: Real-time Data Listener ---
-        function listenForStudents() {
-            if (!studentsCollectionRef) return;
-
-            // onSnapshot creates a real-time listener
-            onSnapshot(query(studentsCollectionRef), (snapshot) => {
-                console.log(`Received ${snapshot.size} student documents.`);
-                
-                // Clear existing table data and cache
-                studentListBody.innerHTML = '';
-                studentDataCache.clear(); 
-
-                // Loop through each document and update cache
-                snapshot.forEach((doc) => {
-                    studentDataCache.set(doc.id, doc.data()); // Update cache
-                });
-
-                // Render the table from the newly populated cache
-                renderTable(); 
-
-            }, (error) => {
-                console.error("Error in onSnapshot listener: ", error);
-                studentListBody.innerHTML = `<tr><td colspan="6" class="px-6 py-4 text-center text-red-600">Error loading data: ${error.message}</td></tr>`;
-            });
+            // Initial render
+            renderTable();
+            
+            console.log("Static dashboard initialized.");
         }
 
         // --- Render: Re-filter and render the entire table ---
@@ -663,8 +164,8 @@
             if (studentDataCache.size === 0) {
                 studentListBody.innerHTML = `
                     <tr>
-                        <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                            No students found. Add one using the form!
+                        <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                            No student data found.
                         </td>
                     </tr>
                 `;
@@ -696,7 +197,7 @@
             if (!resultsFound && searchTerm !== '') {
                  studentListBody.innerHTML = `
                     <tr>
-                        <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                        <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                             No students match your search for "${searchInput.value}".
                         </td>
                     </tr>
@@ -704,12 +205,11 @@
             }
         }
 
-
         // --- Render: Create and append a table row for a student ---
         function renderStudentRow(docId, student) {
             const tr = document.createElement('tr');
             tr.className = 'fade-in-row'; // Add animation class
-            tr.setAttribute('data-id', docId); // Store doc ID for deletion
+            tr.setAttribute('data-id', docId);
 
             // Format marksheet URL into a viewable link
             const url = student.marksheetUrl;
@@ -717,78 +217,21 @@
                 ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 hover:underline">View PDF</a>`
                 : `<span class="text-gray-400">N/A</span>`;
 
+            // Simplified row without admin buttons
             tr.innerHTML = `
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${student.name}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.studentId}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.roll}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.registration}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${marksheetCellHtml}</td>
-                <td class="admin-action px-6 py-4 whitespace-nowrap text-sm font-medium space-x-4">
-                    <button class="edit-btn text-blue-600 hover:text-blue-900" data-id="${docId}">Edit</button>
-                    <button class="delete-btn text-red-600 hover:text-red-900" data-id="${docId}">Delete</button>
-                </td>
             `;
             
             studentListBody.appendChild(tr);
-
-            // --- Admin button listeners ---
-            const editBtn = tr.querySelector('.edit-btn');
-            if (editBtn) {
-                editBtn.addEventListener('click', (e) => {
-                    openEditModal(e.target.dataset.id);
-                });
-            }
-
-            const deleteBtn = tr.querySelector('.delete-btn');
-            if (deleteBtn) {
-                deleteBtn.addEventListener('click', (e) => {
-                    const id = e.target.dataset.id;
-                    openDeleteModal(id);
-                });
-            }
-        }
-
-        // --- Firestore: Delete Student Function ---
-        async function deleteStudent(docId) {
-            console.log(`Attempting to delete doc: ${docId}`);
-            try {
-                // Delete document from Firestore
-                const docRef = doc(db, `/artifacts/${appId}/public/data/students`, docId);
-                await deleteDoc(docRef);
-                console.log(`Document ${docId} deleted.`);
-                // The onSnapshot listener will automatically update the UI
-            } catch (error) {
-                console.error("Error deleting student: ", error);
-                // We'll just log the error, no alert
-            }
-        }
-
-        // --- Helper: Show Form Message ---
-        function showFormMessage(message, type, elementId = 'form-message') {
-            const msgElement = document.getElementById(elementId);
-            if (!msgElement) return;
-
-            msgElement.textContent = message;
-            if (type === 'success') {
-                msgElement.className = 'text-sm text-center text-green-600';
-            } else if (type === 'error') {
-                msgElement.className = 'text-sm text-center text-red-600';
-            } else if (type === 'info') {
-                msgElement.className = 'text-sm text-center text-blue-600';
-            }
-            
-            // Clear message after 3 seconds, unless it's an info message
-            if (type !== 'info') {
-                setTimeout(() => {
-                    if (msgElement.textContent === message) {
-                        msgElement.textContent = '';
-                    }
-                }, 3000);
-            }
         }
 
         // --- Run the app ---
-        main();
+        // Run after DOM is loaded
+        document.addEventListener('DOMContentLoaded', main);
 
     </script>
 </body>
