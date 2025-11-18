@@ -124,7 +124,7 @@
                         <tbody id="student-list" class="bg-white divide-y divide-gray-200">
                             <!-- Rows will be dynamically inserted here by JavaScript -->
                             <tr>
-                                <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                     Loading student data from Firebase...
                                 </td>
                             </tr>
@@ -240,18 +240,20 @@
         import { 
             getAuth, 
             signInAnonymously,
-            onAuthStateChanged 
+            onAuthStateChanged,
+            signInWithCustomToken // Added missing import
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { 
             getFirestore, 
             doc, 
-            setDoc, 
-            addDoc, 
+            setDoc, // Restored import
+            addDoc, // Restored import
             collection, 
             onSnapshot,
             query,
-            deleteDoc,
-            updateDoc
+            deleteDoc, // Restored import
+            updateDoc, // Restored import
+            setLogLevel // Added Firestore logging
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // --- Admin Credentials ---
@@ -260,18 +262,13 @@
         const ADMIN_PASS = "pass123";
 
         // --- Firebase Configuration ---
-        // STEP 1: Paste your Firebase config object here from your Firebase console
-        const firebaseConfig = {
-          apiKey: "AIzaSyDMOM7qjtJbUwQu3-yI64di6ZRLJ_rBUY",
-          authDomain: "student-dashboard-de37d.firebaseapp.com",
-          projectId: "student-dashboard-de37d",
-          storageBucket: "student-dashboard-de37d.appspot.com",
-          messagingSenderId: "511751890852",
-          appId: "1:511751890852:web:6e0c4d404b9a6e606a2c09"
-        };
+        // Get Firebase config from environment
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : {}; // Use empty object as fallback
         
-        // STEP 2: Paste your Project ID here (it's in the config object, but we need it for the path)
-        const appId = "student-dashboard-de37d";
+        // Get App ID from environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         // --- End of Configuration ---
 
 
@@ -405,6 +402,7 @@
 
         // --- Main App Function ---
         async function main() {
+            // Check for config *after* parsing
             if (!firebaseConfig.apiKey) {
                 authStatus.textContent = 'Error: Firebase Config Missing';
                 authStatus.classList.remove('text-red-500');
@@ -419,6 +417,9 @@
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
+
+                // Enable Firestore debug logging
+                setLogLevel('Debug');
 
                 // --- Authentication ---
                 onAuthStateChanged(auth, async (user) => {
@@ -473,9 +474,22 @@
 
 
                     } else {
-                        console.log("User is not authenticated. Signing in...");
+                        console.log("User is not authenticated. Checking for token...");
                         authStatus.textContent = 'Authenticating...';
-                        await signInAnonymously(auth); // Sign in if not authenticated
+                        try {
+                            if (typeof __initial_auth_token !== 'undefined') {
+                                console.log("Signing in with custom token...");
+                                await signInWithCustomToken(auth, __initial_auth_token);
+                            } else {
+                                console.log("No custom token. Signing in anonymously...");
+                                await signInAnonymously(auth);
+                            }
+                        } catch (authError) {
+                            console.error("Authentication failed:", authError);
+                            authStatus.textContent = `Auth Error: ${authError.message}`;
+                            authStatus.classList.remove('text-green-600');
+                            authStatus.classList.add('text-red-500');
+                        }
                     }
                 });
 
@@ -579,7 +593,8 @@
                     showFormMessage('Student updated successfully!', 'success', 'edit-form-message');
                     setTimeout(closeEditModal, 1500);
 
-                } catch (error) {
+                } catch (error)
+ {
                     console.error("Error updating document: ", error);
                     showFormMessage(`Error: ${error.message}`, 'error', 'edit-form-message');
                 } finally {
