@@ -62,12 +62,12 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                <!-- Columns reordered as per user request -->
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student ID</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registration</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Marksheet</th>
-                                <!-- Admin-only Actions Column (REMOVED) -->
                             </tr>
                         </thead>
                         <tbody id="student-list" class="bg-white divide-y divide-gray-200">
@@ -92,42 +92,322 @@
     <!-- App JavaScript -->
     <script>
         // --- Hardcoded Student Data ---
-        // You can add or edit student info here
+        // Data extracted from the user's image
         const studentDataCache = new Map();
         studentDataCache.set('doc1', {
-            name: "Alice Smith",
-            studentId: "S1001",
-            roll: "R001",
-            registration: "REG12345",
-            marksheetUrl: "https://example.com/marksheet/alice.pdf"
+            name: "ALIZA NUSRAT KHAN",
+            studentId: "231048",
+            roll: "117935",
+            registration: "2010944688",
+            marksheetUrl: "https://example.com/marksheet/231048.pdf"
         });
         studentDataCache.set('doc2', {
-            name: "Bob Johnson",
-            studentId: "S1002",
-            roll: "R002",
-            registration: "REG12346",
-            marksheetUrl: "https://example.com/marksheet/bob.pdf"
+            name: "ANIKA TABASSUM RAHI",
+            studentId: "231063",
+            roll: "117234",
+            registration: "2011557767",
+            marksheetUrl: "https://example.com/marksheet/231063.pdf"
         });
         studentDataCache.set('doc3', {
-            name: "Charlie Brown",
-            studentId: "S1003",
-            roll: "R003",
-            registration: "REG12347",
-            marksheetUrl: "https://example.com/marksheet/charlie.pdf"
+            name: "SANJANA AFROJ ZAMI",
+            studentId: "231107",
+            roll: "117255",
+            registration: "2010946156",
+            marksheetUrl: "https://example.com/marksheet/231107.pdf"
         });
         studentDataCache.set('doc4', {
-            name: "David Lee",
-            studentId: "S1004",
-            roll: "R004",
-            registration: "REG12348",
-            marksheetUrl: "https://example.com/marksheet/david.pdf"
+            name: "BEGUM SARA TASNIM",
+            studentId: "231112",
+            roll: "117260",
+            registration: "2010911545",
+            marksheetUrl: "https://example.com/marksheet/231112.pdf"
         });
         studentDataCache.set('doc5', {
-            name: "Eve Davis",
-            studentId: "S1005",
-            roll: "R005",
-            registration: "REG12349",
-            marksheetUrl: "https://example.com/marksheet/eve.pdf"
+            name: "NABILA NAZNIN",
+            studentId: "231119",
+            roll: "117267",
+            registration: "2010945405",
+            marksheetUrl: "https://example.com/marksheet/231119.pdf"
+        });
+        studentDataCache.set('doc6', {
+            name: "SAIARA NOOR",
+            studentId: "231127",
+            roll: "117764",
+            registration: "2010959742",
+            marksheetUrl: "https://example.com/marksheet/231127.pdf"
+        });
+        studentDataCache.set('doc7', {
+            name: "MISRAT JAHAN MUMU",
+            studentId: "231146",
+            roll: "117287",
+            registration: "2010945174",
+            marksheetUrl: "https://example.com/marksheet/231146.pdf"
+        });
+        studentDataCache.set('doc8', {
+            name: "MUSFIKA NAJNIN",
+            studentId: "231171",
+            roll: "117311",
+            registration: "2010617163",
+            marksheetUrl: "https://example.com/marksheet/231171.pdf"
+        });
+        studentDataCache.set('doc9', {
+            name: "MST MOMTAHINA AHMED RIANTA",
+            studentId: "231199",
+            roll: "117932",
+            registration: "2010989733",
+            marksheetUrl: "https://example.com/marksheet/231199.pdf"
+        });
+        studentDataCache.set('doc10', {
+            name: "TANZINA ISLAM",
+            studentId: "231209",
+            roll: "117321",
+            registration: "2010945227",
+            marksheetUrl: "https://example.com/marksheet/231209.pdf"
+        });
+        studentDataCache.set('doc11', {
+            name: "UMME HANI",
+            studentId: "231254",
+            roll: "117365",
+            registration: "2012834507",
+            marksheetUrl: "https://example.com/marksheet/231254.pdf"
+        });
+        studentDataCache.set('doc12', {
+            name: "ISHRAT JAHAN IRIN",
+            studentId: "231394",
+            roll: "117498",
+            registration: "2010637755",
+            marksheetUrl: "https://example.com/marksheet/231394.pdf"
+        });
+        studentDataCache.set('doc13', {
+            name: "ZARIN TASNIM",
+            studentId: "231406",
+            roll: "117510",
+            registration: "2010884364",
+            marksheetUrl: "https://example.com/marksheet/231406.pdf"
+        });
+        studentDataCache.set('doc14', {
+            name: "FARIA SHARMEEN MOUMITA",
+            studentId: "231433",
+            roll: "117537",
+            registration: "2010962931",
+            marksheetUrl: "https://example.com/marksheet/231433.pdf"
+        });
+        studentDataCache.set('doc15', {
+            name: "ZOBAIDA AKTER",
+            studentId: "231442",
+            roll: "117546",
+            registration: "2010594153",
+            marksheetUrl: "https://example.com/marksheet/231442.pdf"
+        });
+        studentDataCache.set('doc16', {
+            name: "MAHERU JAMAL LAMYIA",
+            studentId: "231447",
+            roll: "117551",
+            registration: "2010945421",
+            marksheetUrl: "https://example.com/marksheet/231447.pdf"
+        });
+        studentDataCache.set('doc17', {
+            name: "ABIDA ALAVI AHOUNA",
+            studentId: "231449",
+            roll: "117553",
+            registration: "2017798235",
+            marksheetUrl: "https://example.com/marksheet/231449.pdf"
+        });
+        studentDataCache.set('doc18', {
+            name: "SAYADA TABASSUM ISLAM",
+            studentId: "231465",
+            roll: "117569",
+            registration: "2010944820",
+            marksheetUrl: "https://example.com/marksheet/231465.pdf"
+        });
+        studentDataCache.set('doc19', {
+            name: "HOSSAIN ADRITA EMROSE",
+            studentId: "231478",
+            roll: "117582",
+            registration: "2013628390",
+            marksheetUrl: "https://example.com/marksheet/231478.pdf"
+        });
+        studentDataCache.set('doc20', {
+            name: "MST. NADIA YASMIN",
+            studentId: "231479",
+            roll: "117583",
+            registration: "2013589723",
+            marksheetUrl: "https://example.com/marksheet/231479.pdf"
+        });
+        studentDataCache.set('doc21', {
+            name: "ASHFIHA ZAMAN TWAHA",
+            studentId: "231480",
+            roll: "117584",
+            registration: "2013584703",
+            marksheetUrl: "https://example.com/marksheet/231480.pdf"
+        });
+        studentDataCache.set('doc22', {
+            name: "MUMTAHINAH SURAYA HOSSAIN",
+            studentId: "231527",
+            roll: "117630",
+            registration: "2010959153",
+            marksheetUrl: "https://example.com/marksheet/231527.pdf"
+        });
+        studentDataCache.set('doc23', {
+            name: "TOHFA SARA",
+            studentId: "231563",
+            roll: "117666",
+            registration: "2015138781",
+            marksheetUrl: "https://example.com/marksheet/231563.pdf"
+        });
+        studentDataCache.set('doc24', {
+            name: "SANJIDA JAHAN URMI",
+            studentId: "231593",
+            roll: "117683",
+            registration: "2012751321",
+            marksheetUrl: "https://example.com/marksheet/231593.pdf"
+        });
+        studentDataCache.set('doc25', {
+            name: "SADIA ISLAM TRISHA",
+            studentId: "231601",
+            roll: "117686",
+            registration: "2010652656",
+            marksheetUrl: "https://example.com/marksheet/231601.pdf"
+        });
+        studentDataCache.set('doc26', {
+            name: "SAIFUR RAHMAN SAZZAD",
+            studentId: "232008",
+            roll: "118033",
+            registration: "2010944332",
+            marksheetUrl: "https://example.com/marksheet/232008.pdf"
+        });
+        studentDataCache.set('doc27', {
+            name: "TAHSIN BIN ALOM SHADHIN",
+            studentId: "232109",
+            roll: "118128",
+            registration: "2010947033",
+            marksheetUrl: "https://example.com/marksheet/232109.pdf"
+        });
+        studentDataCache.set('doc28', {
+            name: "MOHTASIN BIN FARUK LIPU",
+            studentId: "232189",
+            roll: "118792",
+            registration: "2010947264",
+            marksheetUrl: "https://example.com/marksheet/232189.pdf"
+        });
+        studentDataCache.set('doc29', {
+            name: "TOKI TAHMEDUL ISLAM",
+            studentId: "232279",
+            roll: "118282",
+            registration: "2010947315",
+            marksheetUrl: "https://example.com/marksheet/232279.pdf"
+        });
+        studentDataCache.set('doc30', {
+            name: "SYED RIDOAN HOSSAIN RADID",
+            studentId: "232280",
+            roll: "118283",
+            registration: "2010946229",
+            marksheetUrl: "https://example.com/marksheet/232280.pdf"
+        });
+        studentDataCache.set('doc31', {
+            name: "JWEL RANA",
+            studentId: "232375",
+            roll: "118374",
+            registration: "2010865490",
+            marksheetUrl: "https://example.com/marksheet/232375.pdf"
+        });
+        studentDataCache.set('doc32', {
+            name: "MOHAMMAD FAHIM FAISAL RAFID",
+            studentId: "232383",
+            roll: "118382",
+            registration: "2017608901",
+            marksheetUrl: "https://example.com/marksheet/232383.pdf"
+        });
+        studentDataCache.set('doc33', {
+            name: "ABDULLA AL SHOUROV",
+            studentId: "232504",
+            roll: "118498",
+            registration: "2015229294",
+            marksheetUrl: "https://example.com/marksheet/232504.pdf"
+        });
+        studentDataCache.set('doc34', {
+            name: "SHAHRIAR NAFIS",
+            studentId: "232508",
+            roll: "118502",
+            registration: "2021012388",
+            marksheetUrl: "https://example.com/marksheet/232508.pdf"
+        });
+        studentDataCache.set('doc35', {
+            name: "MD. SHAIBANY RAHMAN SHISH",
+            studentId: "232549",
+            roll: "118542",
+            registration: "2021076768",
+            marksheetUrl: "https://example.com/marksheet/232549.pdf"
+        });
+        studentDataCache.set('doc36', {
+            name: "MD. ARIFULLAH AL ANAS",
+            studentId: "232564",
+            roll: "118555",
+            registration: "2012752233",
+            marksheetUrl: "https://example.com/marksheet/232564.pdf"
+        });
+        studentDataCache.set('doc37', {
+            name: "JUNAYED AHMED",
+            studentId: "232618",
+            roll: "118609",
+            registration: "2010947575",
+            marksheetUrl: "https://example.com/marksheet/232618.pdf"
+        });
+        studentDataCache.set('doc38', {
+            name: "MD. ABU NUMAYER SIAN",
+            studentId: "232648",
+            roll: "118637",
+            registration: "2017800407",
+            marksheetUrl: "https://example.com/marksheet/232648.pdf"
+        });
+        studentDataCache.set('doc39', {
+            name: "MD. HANZALA MAHMUD",
+            studentId: "232705",
+            roll: "118693",
+            registration: "2015148639",
+            marksheetUrl: "https://example.com/marksheet/232705.pdf"
+        });
+        studentDataCache.set('doc40', {
+            name: "JURIANI RASEL HRIDOM",
+            studentId: "232734",
+            roll: "118005",
+            registration: "2010901066",
+            marksheetUrl: "https://example.com/marksheet/232734.pdf"
+        });
+        studentDataCache.set('doc41', {
+            name: "MD. ABDULLAH",
+            studentId: "232744",
+            roll: "118985",
+            registration: "2018981343",
+            marksheetUrl: "https://example.com/marksheet/232744.pdf"
+        });
+        studentDataCache.set('doc42', {
+            name: "ABU JAR GIFARI AKAND",
+            studentId: "232781",
+            roll: "118000",
+            registration: "2010947460",
+            marksheetUrl: "https://example.com/marksheet/232781.pdf"
+        });
+        studentDataCache.set('doc43', {
+            name: "RAGIBUL MAHMUD JANASI",
+            studentId: "232785",
+            roll: "119021",
+            registration: "2016345007",
+            marksheetUrl: "https://example.com/marksheet/232785.pdf"
+        });
+        studentDataCache.set('doc44', {
+            name: "MD. ISMAIL HOSSAIN",
+            studentId: "232793",
+            roll: "118761",
+            registration: "2010946230",
+            marksheetUrl: "https://example.com/marksheet/232793.pdf"
+        });
+        studentDataCache.set('doc45', {
+            name: "MD. GALIBUL ISLAM",
+            studentId: "232815",
+            roll: "118008",
+            registration: "2010947623",
+            marksheetUrl: "https://example.com/marksheet/232815.pdf"
         });
 
 
@@ -176,7 +456,7 @@
             
             // Loop through the *cached* data and render
             studentDataCache.forEach((student, docId) => {
-                // Ensure data exists before calling toLowerCase()
+                // Search logic remains the same, checking all properties
                 const name = student.name ? student.name.toLowerCase() : '';
                 const studentId = student.studentId ? student.studentId.toLowerCase() : '';
                 const roll = student.roll ? student.roll.toLowerCase() : '';
@@ -217,12 +497,12 @@
                 ? `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 hover:underline">View PDF</a>`
                 : `<span class="text-gray-400">N/A</span>`;
 
-            // Simplified row without admin buttons
+            // Row cells reordered to match the new header
             tr.innerHTML = `
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${student.name}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.studentId}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.roll}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${student.studentId}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.name}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.registration}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.roll}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${marksheetCellHtml}</td>
             `;
             
